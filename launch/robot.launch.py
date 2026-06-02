@@ -1,11 +1,10 @@
-import os
+import xacro
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    urdf_path = os.path.join(os.path.dirname(__file__), '..', 'urdf', 'rover.urdf')
-    with open(urdf_path, 'r') as f:
-        robot_description = f.read()
+    xacro_path = '/ros_ws/urdf/rover.urdf.xacro'
+    robot_description = xacro.process_file(xacro_path).toxml()
 
     return LaunchDescription([
         Node(
