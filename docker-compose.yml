@@ -1,0 +1,17 @@
+x-service: &base
+  image: rover:latest
+  network_mode: host
+  entrypoint: /ros_entrypoint.sh
+  volumes:
+    - .:/ros_ws
+
+services:
+  foxglove_bridge:
+    <<: *base
+    network_mode: bridge # WSL Only
+    ports: ["8765:8765"] # WSL Only
+    command: ros2 run foxglove_bridge foxglove_bridge
+
+  robot_description:
+    <<: *base
+    command: ros2 launch launch/robot.launch.py
